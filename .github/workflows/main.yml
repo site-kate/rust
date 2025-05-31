@@ -1,0 +1,45 @@
+name: RustDesk Headless Desktop Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Ubuntu Desktop
+        run: sudo apt-get update && sudo apt-get install -y ubuntu-desktop
+
+      - name: Install Dummy Xorg Video Driver
+        run: sudo apt-get install -y xserver-xorg-video-dummy
+
+      - name: Install LightDM
+        run: sudo apt-get install -y lightdm
+
+      - name: Install dependencies
+        run: sudo apt-get install -y wget
+
+      - name: Download RustDesk 1.2 nightly
+        run: |
+          wget -O rustdesk.deb https://github.com/rustdesk/rustdesk/releases/download/nightly/rustdesk-1.2.0-nightly-amd64.deb
+
+      - name: Install RustDesk
+        run: sudo dpkg -i rustdesk.deb || sudo apt-get install -f -y
+
+      - name: Enable RustDesk headless mode
+        run: sudo rustdesk --option allow-linux-headless Y
+
+      - name: Set RustDesk password
+        run: sudo rustdesk --password R0und3mu
+
+      - name: Get RustDesk ID
+        id: rustdesk_id
+        run: |
+          echo "id=$(sudo rustdesk --get-id)" >> $GITHUB_OUTPUT
+
+      - name: Display RustDesk Connection Info
+        run: |
+          echo "RustDesk Headless is enabled."
+          echo "ID: ${{ steps.rustdesk_id.outputs.id }}"
+          echo "Password: R0und3mu"
+          echo "Connect using the RustDesk client with the above ID and password."
