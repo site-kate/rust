@@ -1,4 +1,4 @@
-name: RustDesk Headless
+name: RustDesk Headless Desktop Setup
 
 on:
   workflow_dispatch:
@@ -43,3 +43,8 @@ jobs:
           echo "ID: ${{ steps.rustdesk_id.outputs.id }}"
           echo "Password: R0und3mu"
           echo "Connect using the RustDesk client with the above ID and password."
+
+      - name: Keep alive for 5 hours
+        run: |
+          echo "Keeping the runner alive for 5 hours..."
+          sleep 18000
