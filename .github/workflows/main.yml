@@ -1,4 +1,4 @@
-name: RustDesk Headless Desktop Setup
+name: RustDesk Headless
 
 on:
   workflow_dispatch:
@@ -19,9 +19,9 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y wget
 
-      - name: Download RustDesk 1.2 nightly
+      - name: Download RustDesk 1.4 nightly
         run: |
-          wget -O rustdesk.deb https://github.com/rustdesk/rustdesk/releases/download/nightly/rustdesk-1.2.0-nightly-amd64.deb
+          wget -O rustdesk.deb https://github.com/rustdesk/rustdesk/releases/download/nightly/rustdesk-1.4.0-x86_64.deb
 
       - name: Install RustDesk
         run: sudo dpkg -i rustdesk.deb || sudo apt-get install -f -y
